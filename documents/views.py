@@ -7,5 +7,5 @@ def doc_detail_view(req, id):
     context = {
         'obj': obj
     }
-    return render(req, 'documents/detail.html', context=context)
+    return render(req, 'documents/detail_view.html', context=context)
 
