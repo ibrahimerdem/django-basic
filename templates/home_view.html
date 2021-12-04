@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<ul>
+    {% for q in objqs %}
+    <li><a href='/documents/{{ q.id }}'>{{ q.title }}, {{ q.content }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
