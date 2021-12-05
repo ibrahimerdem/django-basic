@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not created %}
+    <form action='.' method='POST'>
+        {% csrf_token %}
+        <input type='text' name='title' placeholder='Title'/>
+        <textarea name='content' placeholder='Content'></textarea>
+        <input type='submit' value='Create'/>
+    </form>
+{% else %}
+    <p>Document Created</p>
+    <a href='/documents/{{ obj.id }}'>{{ obj.title }}, {{ obj.content }}</a>
+{% endif %}
+{% endblock %}

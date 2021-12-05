@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if obj %}
 <h1>{{ obj.title }}</h1>
 <p>{{ obj.content }}</p>
+{% endif %}
 
-{% endblock%}
+{% endblock %}

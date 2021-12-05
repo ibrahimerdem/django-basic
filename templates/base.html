@@ -5,8 +5,16 @@
     <title>base</title>
 </head>
 <body>
-<div>navbar</div>
+<div>navbar <a href='/admin/'>admin-page</a></div>
+<form action='/documents/'>
+    <input type='text' name='q'/>
+    <input type='submit'/>
+</form>
 {% block content %}
 {% endblock %}
+
+<a href='/login/'>login</a>
+<a href='/documents/create/'>create</a>
+<a href='/'>home</a>
 </body>
 </html>
