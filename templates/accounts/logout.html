@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% if not request.user.is_authenticated %}
+{% if request.user.is_authenticated %}
     <div>
         <form action='.' method='POST'>
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type='submit' value='Login'/>
+            <p>are your sure?</p>
+            <input type='submit' value='Logout'/>
         </form>
     </div>
 {% else %}
-    <p>you have already logged in <a href='/logout/'>logout</a></p>
+    <p>you are not logged in <a href='/login/'>login</a></p>
 {% endif %}
 {% endblock %}

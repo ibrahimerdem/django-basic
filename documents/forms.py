@@ -1,10 +1,16 @@
 from django import forms
+from .models import Document
 
 
-class DocumentForm(forms.Form):
-    title = forms.CharField()
-    content = forms.CharField()
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['title', 'content']
 
-    def clean_title(self):
-        cleaned_data = self.cleaned_data
-        return cleaned_data.get('title')
+    def clean(self):
+        data = self.cleaned_data
+        title = data.get('title')
+        qs = Document.objects.filter(title__icontains=title)
+        if qs.exists():
+            self.add_error('title', f'\'{title}\' is in use')
+        return data

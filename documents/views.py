@@ -24,9 +24,8 @@ def doc_create_form(req):
         'form': form
     }
     if form.is_valid():
-        title = form.cleaned_data.get('title')
-        content = form.cleaned_data.get('content')
-        obj = Document.objects.create(title=title, content=content)
+        obj = form.save()
+        context['form'] = DocumentForm()
         context['obj'] = obj
         context['created'] = True
     return render(req, 'documents/create_form.html', context=context)
