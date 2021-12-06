@@ -1,12 +1,13 @@
 import os
-import django_heroku
 from pathlib import Path
+import django_heroku
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-g3^4u28!qpobs4=b7h6aiwumllc+*td=iyjpxv%$g^0z%-w1b&')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-w9sb72&vwgw40#-0!etz2^o=_fzq$rz2k)mu#e7!z_rc&)rk7$')
 DEBUG = str(os.environ.get('DEBUG')) == '1'
-
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
+if not DEBUG:
+    ALLOWED_HOSTS += os.environ.get('ALLOWED_HOST')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,18 +30,17 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'DjangoBasic.urls'
+LOGIN_URL = '/login/'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.templates.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'templates')
-        ],
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.templates.context_processors.debug',
-                'django.templates.context_processors.request',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -50,15 +50,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DjangoBasic.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'df9jctunta61q',
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT'),
+        }
+    }
 
 
 # Password validation
@@ -97,7 +106,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+django_heroku.settings(locals())
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
